@@ -10,7 +10,6 @@ repository = "https://github.com/rotexengine/rotex-gl"
 async-trait = "0.1.89"
 glow = "0.17.0"
 libloading = "0.8.9"
-raw-window-handle = "0.6.2"
 rotex-core = { version = "0.2.0" }
 rotex-types = { version = "0.2.0" }
 
