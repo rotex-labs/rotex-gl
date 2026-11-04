@@ -1,0 +1,29 @@
+[package]
+name = "rotex-gl"
+version = "0.2.0"
+edition = "2024"
+license = "MIT"
+description = "WebGL2 and GLES 3.0 backend for Rotex"
+repository = "https://github.com/rotexengine/rotex-gl"
+
+[dependencies]
+async-trait = "0.1.89"
+glow = "0.17.0"
+libloading = "0.8.9"
+raw-window-handle = "0.6.2"
+rotex-core = { version = "0.2.0" }
+rotex-types = { version = "0.2.0" }
+
+[dev-dependencies]
+pollster = "0.4.0"
+rotex-conformance = { version = "0.2.0" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = [
+    "Document",
+    "Element",
+    "HtmlCanvasElement",
+    "WebGl2RenderingContext",
+    "Window",
+] }
