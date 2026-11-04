@@ -4,7 +4,7 @@ version = "0.2.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "WebGL2 and GLES 3.0 backend for Rotex"
-repository = "https://github.com/rotexengine/rotex-gl"
+repository = "https://github.com/rotex-labs/rotex-gl"
 
 [dependencies]
 async-trait = "0.1.89"
