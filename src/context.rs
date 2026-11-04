@@ -203,17 +203,22 @@ fn native_context() -> Result<GlContext, Error> {
         let destroy_surface_fn = *destroy_surface;
         let destroy_context_fn = *destroy_context;
         let terminate_fn = *terminate;
-        drop(get_display);
-        drop(initialize);
-        drop(bind_api);
-        drop(choose_config);
-        drop(create_context);
-        drop(create_pbuffer);
-        drop(make_current);
-        drop(get_proc);
-        drop(destroy_surface);
-        drop(destroy_context);
-        drop(terminate);
+        // `Symbol` does not implement `Drop`. Ending these bindings releases the
+        // borrow of `library` so the library can move into the context.
+        #[allow(clippy::drop_non_drop)]
+        {
+            drop(get_display);
+            drop(initialize);
+            drop(bind_api);
+            drop(choose_config);
+            drop(create_context);
+            drop(create_pbuffer);
+            drop(make_current);
+            drop(get_proc);
+            drop(destroy_surface);
+            drop(destroy_context);
+            drop(terminate);
+        }
         if make_current_fn(display, surface, surface, context) == 0 {
             return Err(Error::unsupported("eglMakeCurrent failed"));
         }
