@@ -43,6 +43,7 @@ struct BoundGroup {
     buffers: Vec<(u32, BufferId, u64, u64)>,
 }
 
+/// Translates [`rotex_types::RhiCommand`] values to GLES 3.0 or WebGL2.
 pub struct GlBridge {
     context: GlContext,
     capabilities: BackendCapabilities,

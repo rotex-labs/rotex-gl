@@ -9,6 +9,10 @@ use crate::caps::{self, CAPS};
 use crate::context::GlContext;
 use crate::recorder::GlBridge;
 
+/// GL implementation of [`GpuPlatform`](rotex_core::GpuPlatform).
+///
+/// One context is created up front and moved into [`GlBridge`](crate::GlBridge)
+/// when the backend is created.
 pub struct GlGpuPlatform {
     context: Option<GlContext>,
 }
