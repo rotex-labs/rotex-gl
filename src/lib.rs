@@ -1,3 +1,15 @@
+#![deny(missing_docs)]
+#![deny(rustdoc::broken_intra_doc_links)]
+
+//! WebGL2 and GLES 3.0 backend.
+//!
+//! [`GlGpuPlatform`] creates one glow context, on native EGL and on wasm.
+//! [`GlBridge`] translates [`rotex_types::RhiCommand`] values. Shader input is
+//! the GLSL payload. A command whose capability is absent returns an error.
+//!
+//! Compute, storage buffers, push constants, and queries are absent. Barriers
+//! are accepted and do nothing. Creating a native context requires EGL.
+
 mod caps;
 mod context;
 mod gpu_platform;
