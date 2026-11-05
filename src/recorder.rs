@@ -57,6 +57,7 @@ pub struct GlBridge {
     groups: HashMap<BindGroupId, BoundGroup>,
     queries: HashMap<QuerySetId, ()>,
     compute: HashMap<ComputePipelineId, ()>,
+    shaders: HashMap<rotex_types::ShaderId, rotex_types::ShaderArtifact>,
     bound_pipeline: Option<GraphicsPipelineId>,
     vertex_bindings: HashMap<u32, (BufferId, u64)>,
     index_binding: Option<(BufferId, u64, IndexFormat)>,
@@ -78,6 +79,7 @@ impl GlBridge {
             groups: HashMap::new(),
             queries: HashMap::new(),
             compute: HashMap::new(),
+            shaders: HashMap::new(),
             bound_pipeline: None,
             vertex_bindings: HashMap::new(),
             index_binding: None,
@@ -439,6 +441,29 @@ impl GlBridge {
             ResourceCreateDescriptor::QuerySet { .. } => {
                 Err(Self::absent("queries are absent on WebGL2"))
             }
+            ResourceCreateDescriptor::Shader { id, artifact } => {
+                let id = rotex_types::ShaderId(id);
+                ensure_absent(&self.shaders, &id)?;
+                let es = artifact.payload(rotex_types::TargetId::GlslEs300);
+                let desktop = artifact.payload(rotex_types::TargetId::GlslDesktop);
+                #[cfg(target_arch = "wasm32")]
+                let selected = es.or(desktop);
+                #[cfg(not(target_arch = "wasm32"))]
+                let selected = desktop.or(es);
+                if selected.is_none() {
+                    return Err(Error::unsupported("shader artifact has no GLSL payload"));
+                }
+                if let Some(cap) = artifact.unmet_capability(&[]) {
+                    let message = match cap {
+                        "compute" => "shader requires compute",
+                        "storage_buffer" => "shader requires storage buffers",
+                        _ => "shader requires an unsupported capability",
+                    };
+                    return Err(Error::unsupported(message));
+                }
+                self.shaders.insert(id, artifact);
+                Ok(ResourceHandle::Shader(id))
+            }
             _ => Err(Error::unsupported("resource is not implemented")),
         }
     }
@@ -526,6 +551,9 @@ impl GlBridge {
             }
             ResourceHandle::QuerySet(id) => {
                 self.queries.remove(&id);
+            }
+            ResourceHandle::Shader(id) => {
+                self.shaders.remove(&id);
             }
             _ => {}
         }
