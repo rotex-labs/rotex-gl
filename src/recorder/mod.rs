@@ -214,4 +214,3 @@ impl GpuBackend for GlBridge {
         });
     }
 }
-

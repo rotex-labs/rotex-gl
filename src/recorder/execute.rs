@@ -430,5 +430,4 @@ impl GlBridge {
         };
         Ok((ty, offset as i32))
     }
-
 }

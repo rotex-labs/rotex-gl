@@ -1,8 +1,11 @@
-use super::*;
 use super::program::ensure_absent;
+use super::*;
 
 impl GlBridge {
-    pub(super) fn create_one(&mut self, resource: ResourceCreateDescriptor) -> Result<ResourceHandle, Error> {
+    pub(super) fn create_one(
+        &mut self,
+        resource: ResourceCreateDescriptor,
+    ) -> Result<ResourceHandle, Error> {
         match resource {
             ResourceCreateDescriptor::Buffer { id, buffer } => {
                 let id = BufferId(id);
@@ -349,5 +352,4 @@ impl GlBridge {
         }
         Ok(())
     }
-
 }
