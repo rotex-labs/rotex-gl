@@ -12,7 +12,8 @@ use crate::recorder::GlBridge;
 /// GL implementation of [`GpuPlatform`](rotex_core::GpuPlatform).
 ///
 /// One context is created up front and moved into [`GlBridge`](crate::GlBridge)
-/// when the backend is created.
+/// when the backend is created. [`PlatformDescriptor::debug`] is ignored: GL has
+/// no API validation layer.
 pub struct GlGpuPlatform {
     context: Option<GlContext>,
 }
@@ -52,9 +53,8 @@ impl GpuPlatform for GlGpuPlatform {
                     compute_queue_count: 0,
                     transfer_queue_count: 1,
                 },
-                available_features: rotex_types::DeviceFeatures::default(),
+                features: rotex_types::FeatureSet::empty(),
                 limits: Limits::CORE_MIN,
-                extensions: rotex_types::FeatureSet::empty(),
                 core: CAPS,
             },
         }])

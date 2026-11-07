@@ -24,6 +24,6 @@ pub(crate) fn capabilities() -> BackendCapabilities {
     BackendCapabilities {
         core: CAPS,
         limits: Limits::CORE_MIN,
-        extensions: FeatureSet::empty(),
+        features: FeatureSet::empty(),
     }
 }
