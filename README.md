@@ -30,7 +30,7 @@ WebGL2 and GLES 3.0 backend that reports the features it lacks.
 
 ## Status
 
-Version 0.2.0. Compute, storage buffers, push constants, and queries are absent. Barriers are accepted and do nothing. Native context creation needs EGL; tests return when it is missing.
+Version 0.3.0. Compute, storage buffers, push constants, and queries are absent. Barriers are accepted and do nothing. Native context creation needs EGL; tests return when it is missing.
 
 ## License
 
